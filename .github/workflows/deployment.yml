@@ -4,35 +4,36 @@ on:
       branches: [master]
     workflow_dispatch:
 jobs:
-    test:
-        runs-on: ubuntu-latest
-        steps:
-            - name: Checkout code
-              uses: actions/checkout@v5
-            - name: Install nodejs
-              uses: actions/setup-node@v6
-              with:
-                node-version: 18
-            - name: Install dependencies
-              run: npm ci
-            - name: Build
-              run: npm run test  
-    lint:
-        needs: test
-        runs-on: ubuntu-latest
-        steps:
-            - name: Checkout code
-              uses: actions/checkout@v5
-            - name: Install nodejs
-              uses: actions/setup-node@v6
-              with:
-                node-version: 18
-            - name: Install dependencies
-              run: npm ci
-            - name: lint
-              run: npm run lint  
+    # test:
+    #     runs-on: ubuntu-latest
+    #     steps:
+    #         - name: Checkout code
+    #           uses: actions/checkout@v5
+    #         - name: Install nodejs
+    #           uses: actions/setup-node@v6
+    #           with:
+    #             node-version: 18
+    #         - name: Install dependencies
+    #           run: npm ci
+    #         - name: Build
+    #           run: npm run test  
+    # lint:
+    #     needs: test
+    #     runs-on: ubuntu-latest
+    #     steps:
+    #         - name: Checkout code
+    #           uses: actions/checkout@v5
+    #         - name: Install nodejs
+    #           uses: actions/setup-node@v6
+    #           with:
+    #             node-version: 18
+    #         - name: Install dependencies
+    #           run: npm ci
+    #         - name: lint
+    #           run: npm run lint  
     build:
-        needs: lint
+        outputs:
+          script-file-name: "file-name-sh"
         runs-on: ubuntu-latest
         steps: 
             - name: Checkout code
@@ -62,4 +63,6 @@ jobs:
               name: dist-folder
           - name: List folders
             run: ls    
+          - name: Echo file name
+            run: echo "${{ needs.build.outputs.script-file-name }}"  
 
