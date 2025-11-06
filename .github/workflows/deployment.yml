@@ -38,6 +38,7 @@ jobs:
     build:
         outputs:
           script-file-name: "file-name-sh"
+        needs: lint
         runs-on: ubuntu-latest
         steps: 
             - name: Checkout code
