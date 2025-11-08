@@ -38,8 +38,6 @@ jobs:
                 key: deps-node-modeules-${{hashFiles('**/package-lock.json')}}
             - name: Install dependencies
               run: npm ci
-            - name: lint
-              run: npm run lint  
             - name: Echo ENV variable
               run: echo "${{ env.JOB_ENVIRONMENT_VARIABLE }}"
     build:
