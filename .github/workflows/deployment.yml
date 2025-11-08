@@ -1,85 +1,13 @@
-name: Deployment
-on:
-    push:
-      branches: [master]
-    workflow_dispatch:
+name: Environment Variables
+on: 
+  push:
+    branches:
+      - master
 env:
-    NODE_ENV: production
-    DEPLOYMENT_BRANCH: master
+  DB_NAME: ${{secrets.DB_NAME}}
 jobs:
-    # test:
-    #     runs-on: ubuntu-latest
-    #     steps:
-    #         - name: Checkout code
-    #           uses: actions/checkout@v5
-    #         - name: Install nodejs
-    #           uses: actions/setup-node@v6
-    #           with:
-    #             node-version: 18
-    #         - name: Install dependencies
-    #           run: npm ci
-    #         - name: Build
-    #           run: npm run test  
-    lint:
-        env:
-          JOB_ENVIRONMENT_VARIABLE: LINT_SOUHAIL
-        runs-on: ubuntu-latest
-        steps:
-            - name: Checkout code
-              uses: actions/checkout@v5
-            - name: Install nodejs
-              uses: actions/setup-node@v6
-              with:
-                node-version: 18
-            - name: Cache dependencies
-              uses: actions/cache@v4
-              with:
-                path: ~/.npm
-                key: deps-node-modeules-${{hashFiles('**/package-lock.json')}}
-            - name: Install dependencies
-              run: npm ci
-            - name: Echo ENV variable
-              run: echo "${{ env.JOB_ENVIRONMENT_VARIABLE }}"
-    build:
-        outputs:
-          script-file-name: "file-name-sh"
-        needs: lint
-        runs-on: ubuntu-latest
-        steps: 
-            - name: Checkout code
-              uses: actions/checkout@v5
-            - name: Install nodejs
-              uses: actions/setup-node@v6
-              with:
-                node-version: 18
-            - name: Cache dependencies
-              uses: actions/cache@v4
-              with:
-                path: ~/.npm
-                key: deps-node-modeules-${{hashFiles('**/package-lock.json')}}  
-            - name: Install dependencies
-              run: npm ci
-            - name: Build
-              run: npm run build
-            - name: Upload artifact
-              uses: actions/upload-artifact@v4
-              with:
-                name: dist-folder
-                path: |
-                  dist
-                  package.json
-    deploy:
-        needs: build
-        runs-on: ubuntu-latest
-        steps:
-          - name: Download artifact
-            uses: actions/download-artifact@v4
-            with:
-              name: dist-folder
-          - name: List folders
-            run: ls    
-          - name: Echo file name
-            run: echo "${{ needs.build.outputs.script-file-name }}"  
-          - name: Echo Global ENV VARIABLE
-            run: echo "Global ENV VARIABLE $NODE_ENV"
-
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Print Environment Variables
+        run: echo "Database Name $DB_NAME"
