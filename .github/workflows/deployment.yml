@@ -3,6 +3,9 @@ on:
     push:
       branches: [master]
     workflow_dispatch:
+env:
+    NODE_ENV: production
+    DEPLOYMENT_BRANCH: master
 jobs:
     # test:
     #     runs-on: ubuntu-latest
@@ -18,6 +21,8 @@ jobs:
     #         - name: Build
     #           run: npm run test  
     lint:
+        env:
+          JOB_ENVIRONMENT_VARIABLE: LINT_SOUHAIL
         runs-on: ubuntu-latest
         steps:
             - name: Checkout code
@@ -35,6 +40,8 @@ jobs:
               run: npm ci
             - name: lint
               run: npm run lint  
+            - name: Echo ENV variable
+              run: echo "${{ env.JOB_ENVIRONMENT_VARIABLE }}"
     build:
         outputs:
           script-file-name: "file-name-sh"
@@ -75,4 +82,6 @@ jobs:
             run: ls    
           - name: Echo file name
             run: echo "${{ needs.build.outputs.script-file-name }}"  
+          - name: Echo Global ENV VARIABLE
+            run: echo "Global ENV VARIABLE $NODE_ENV"
 
