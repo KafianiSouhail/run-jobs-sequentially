@@ -21,9 +21,9 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout code
-        uses: actions/checkout@v2
+        uses: actions/checkout@v5
       - name: Install node js
-        uses: actions/setup-node@v2
+        uses: actions/setup-node@v6
         with:
           node-version: '18'
       - name: Install dependencies
@@ -31,7 +31,7 @@ jobs:
       - name: Tetsting
         run: npm run test
       - name: Upload test report
-        uses: actions/upload-artifact@v2
+        uses: actions/upload-artifact@v4
         with:
           name: test-report
           path: test-results.json
