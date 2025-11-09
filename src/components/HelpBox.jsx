@@ -1,7 +1,8 @@
-import { string } from 'prop-types';
+import { string } from "prop-types";
 
-import './HelpBox.css';
+import "./HelpBox.css";
 
+console.log();
 function HelpBox({ title, text }) {
   return (
     <article className="help-box">
